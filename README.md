@@ -1,1 +1,1 @@
-# ordinary-calc
+# yetanother-calc

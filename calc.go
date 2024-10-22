@@ -1,4 +1,4 @@
-package ordinarycalc
+package yetanothercalc
 
 import (
 	"fmt"

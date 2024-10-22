@@ -1,3 +1,3 @@
-package ordinarycalc_test
+package yetanothercalc_test
 
 // TODO: write tests
