@@ -81,6 +81,54 @@ func TestValidateExpression(t *testing.T) {
 
 // TODO: write tests for Calc
 // TODO: write tests for RemoveSpaces
+func TestRemoveSpaces(t *testing.T) {
+	cases := []struct {
+		name     string
+		input    string
+		excepted string
+	}{
+		{
+			name:     "Normal expression",
+			input:    "2 + 3 * (4 - 5) / 6",
+			excepted: "2+3*(4-5)/6",
+		},
+		{
+			name:     "No spaces",
+			input:    "2+3*(4-5)/5^6",
+			excepted: "2+3*(4-5)/5^6",
+		},
+		{
+			name:     "Only space",
+			input:    " ",
+			excepted: "",
+		},
+		{
+			name:     "Empty expression",
+			input:    "",
+			excepted: "",
+		},
+		{
+			name:     "Spaces at beginning and end",
+			input:    " 123 + 456 + 789 ",
+			excepted: "123+456+789",
+		},
+		{
+			name:     "Multiple spaces between characters",
+			input:    "2  + 3    *      4",
+			excepted: "2+3*4",
+		},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			got := yetanothercalc.RemoveSpaces(tc.input)
+
+			if got != tc.excepted {
+				t.Errorf("RemoveSpaces(%q): got %q, excepted %q", tc.input, got, tc.excepted)
+			}
+		})
+	}
+}
+
 // TODO: write tests for ParseExpression
 // TODO: write tests for ValidateTokens
 // TODO: write tests for IsNumber
