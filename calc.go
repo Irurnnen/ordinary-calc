@@ -1,15 +1,15 @@
 package yetanothercalc
 
 import (
-	"fmt"
 	"regexp"
 	"strings"
 )
 
-const allowedSymbolsRegular = `[^0-9+\-*\/()^\s]`
+const disallowedSymbolsRegular = `[^0-9\.+\-*\/()^\s]`
 const spacesRegular = `\s`
 
-var operators = "+-*/()^"
+var operands = "+-*/^"
+var operators = operands + "()"
 var priority = map[string]int{"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
 func Calc(expression string) (float64, error) {
@@ -19,25 +19,31 @@ func Calc(expression string) (float64, error) {
 	}
 	// Delete all space in expression
 	expression = RemoveSpaces(expression)
-	// tokens, err := parseExpression(expression)
-	// if err != nil {
-	// 	return 0, err
-	// }
+
+	// Tokenize expression
 	tokens := ParseExpression(expression)
-	fmt.Println(tokens)
-	fmt.Println(ToPostfix(tokens))
+
+	// Validate Tokens
+	if err := ValidateTokens(tokens); err != nil {
+		return 0, err
+	}
+
 	// TODO: calculate the expression
 	return 0, nil
 }
 
 func ValidateExpression(expression string) error {
-	re := regexp.MustCompile(allowedSymbolsRegular)
+	// Check disallowed symbols
+	re := regexp.MustCompile(disallowedSymbolsRegular)
 	if re.MatchString(expression) {
 		return ErrExtraCharacters
 	}
+
+	// Check correction of brackets
 	if strings.Count(expression, "(") != strings.Count(expression, ")") {
 		return ErrUnpairedBracket
 	}
+
 	return nil
 }
 
@@ -51,7 +57,7 @@ func ParseExpression(expression string) []string {
 	var number string
 
 	for _, character := range expression {
-		if !strings.ContainsRune(operators, character) {
+		if IsNumber(string(character)) {
 			number += string(character)
 			continue
 		}
@@ -64,12 +70,38 @@ func ParseExpression(expression string) []string {
 	return tokens
 }
 
+func ValidateTokens(tokens []string) error {
+	// Check multiple operators or multiple numbers
+	for i := 1; i < len(tokens); i++ {
+		if IsOperand(tokens[i-1]) == IsOperand(tokens[i]) {
+			return ErrMultipleOperands
+		}
+		if IsNumber(tokens[i-1]) == IsNumber((tokens[i])) {
+			return ErrMultipleNumbers
+		}
+	}
+	return nil
+}
+
+func IsNumber(token string) bool {
+	for _, v := range token {
+		if v != '.' || v < '0' || v > '9' {
+			return false
+		}
+	}
+	return true
+}
+
+func IsOperand(token string) bool {
+	return strings.Contains(operands, token) && len(token) == 1
+}
+
 func ToPostfix(tokens []string) []string {
 	var stack []string
 	var output []string
 
 	for _, token := range tokens {
-		if !strings.Contains(operators, token) {
+		if IsNumber(token) {
 			output = append(output, token)
 			continue
 		}
