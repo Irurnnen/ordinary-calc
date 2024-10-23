@@ -1,7 +1,9 @@
 package yetanothercalc
 
 import (
+	"math"
 	"regexp"
+	"strconv"
 	"strings"
 )
 
@@ -9,7 +11,6 @@ const disallowedSymbolsRegular = `[^0-9\.+\-*\/()^\s]`
 const spacesRegular = `\s`
 
 var operands = "+-*/^"
-var operators = operands + "()"
 var priority = map[string]int{"+": 1, "-": 1, "*": 2, "/": 2, "^": 3}
 
 func Calc(expression string) (float64, error) {
@@ -17,8 +18,6 @@ func Calc(expression string) (float64, error) {
 	if err := ValidateExpression(expression); err != nil {
 		return 0, err
 	}
-	// Delete all space in expression
-	expression = RemoveSpaces(expression)
 
 	// Tokenize expression
 	tokens := ParseExpression(expression)
@@ -28,8 +27,13 @@ func Calc(expression string) (float64, error) {
 		return 0, err
 	}
 
-	// TODO: calculate the expression
-	return 0, nil
+	// Calculate the expression
+	result, err := EvalExpression(tokens)
+	if err != nil {
+		return 0, err
+	}
+
+	return result, nil
 }
 
 func ValidateExpression(expression string) error {
@@ -55,6 +59,9 @@ func RemoveSpaces(expression string) string {
 func ParseExpression(expression string) []string {
 	var tokens []string
 	var number string
+
+	// Delete all space in expression
+	expression = RemoveSpaces(expression)
 
 	for _, character := range expression {
 		if IsNumber(string(character)) {
@@ -129,4 +136,43 @@ func ToPostfix(tokens []string) []string {
 		stack = stack[:len(stack)-1]
 	}
 	return output
+}
+
+func EvalExpression(tokens []string) (float64, error) {
+	var stack []float64
+	for _, token := range tokens {
+		// If token is number
+		if IsNumber(token) {
+			num, err := strconv.ParseFloat(token, 64)
+			if err != nil {
+				return 0, ErrParseFloat
+			}
+			stack = append(stack, num)
+			continue
+		}
+		// If token is operand
+		a, b := stack[len(stack)-2], stack[len(stack)-1]
+		stack = stack[:len(stack)-2]
+
+		var result float64
+		switch token {
+		case "+":
+			result = a + b
+		case "-":
+			result = a - b
+		case "*":
+			result = a * b
+		case "/":
+			if b == 0 {
+				return 0, ErrZeroByDivision
+			}
+			result = a / b
+		case "^":
+			result = math.Pow(a, b)
+		}
+
+		stack = append(stack, result)
+	}
+
+	return stack[0], nil
 }
