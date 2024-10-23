@@ -44,7 +44,18 @@ func ValidateExpression(expression string) error {
 	}
 
 	// Check correction of brackets
-	if strings.Count(expression, "(") != strings.Count(expression, ")") {
+	var bracketBalance int
+	for _, v := range expression {
+		if v == '(' {
+			bracketBalance++
+		} else if v == ')' {
+			bracketBalance--
+			if bracketBalance < 0 {
+				return ErrWrongBracketOrder
+			}
+		}
+	}
+	if bracketBalance != 0 {
 		return ErrUnpairedBracket
 	}
 

@@ -28,8 +28,43 @@ func TestValidateExpression(t *testing.T) {
 			excepted: nil,
 		},
 		{
-			name:     "Correct advanced expression",
+			name:     "Advanced expression",
 			input:    "15/(7-(1+1))*3-(2+(1+1))*15/(7-(200+1)^2)3-(2+(1+1))(15/(7-(1+1))*3-(2+(1+1))+15/(7-(1+1))*3-(2+(1+1)))",
+			excepted: nil,
+		},
+		{
+			name:     "Only brackets",
+			input:    "((()))",
+			excepted: nil,
+		},
+		{
+			name:     "Decimal numbers",
+			input:    "2.5 + 3.7",
+			excepted: nil,
+		},
+		{
+			name:     "Extra characters",
+			input:    "2 + a - 3",
+			excepted: yetanothercalc.ErrExtraCharacters,
+		},
+		{
+			name:     "Unpaired bracket (only opened bracket)",
+			input:    "2 + (3 * 4",
+			excepted: yetanothercalc.ErrUnpairedBracket,
+		},
+		{
+			name:     "Unpaired brackets (only closed bracket)",
+			input:    "2) + 3 * 4",
+			excepted: yetanothercalc.ErrWrongBracketOrder,
+		},
+		{
+			name:     "Unpaired brackets (wrong order)",
+			input:    "2) + 3 * (4",
+			excepted: yetanothercalc.ErrWrongBracketOrder,
+		},
+		{
+			name:     "Empty expression",
+			input:    "",
 			excepted: nil,
 		},
 	}
