@@ -6,7 +6,6 @@ import (
 	yetanothercalc "github.com/Irurnnen/yet-another-calc"
 )
 
-// TODO: write tests
 func TestValidateExpression(t *testing.T) {
 	cases := []struct {
 		name     string
@@ -44,3 +43,12 @@ func TestValidateExpression(t *testing.T) {
 		})
 	}
 }
+
+// TODO: write tests for Calc
+// TODO: write tests for RemoveSpaces
+// TODO: write tests for ParseExpression
+// TODO: write tests for ValidateTokens
+// TODO: write tests for IsNumber
+// TODO: write tests for IsOperand
+// TODO: write tests for ToPostfix
+// TODO: write tests for EvalExpression
