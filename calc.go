@@ -27,8 +27,11 @@ func Calc(expression string) (float64, error) {
 		return 0, err
 	}
 
+	// Change to postfix
+	postfixTokens := ToPostfix(tokens)
+
 	// Calculate the expression
-	result, err := EvalExpression(tokens)
+	result, err := EvalExpression(postfixTokens)
 	if err != nil {
 		return 0, err
 	}
@@ -85,16 +88,19 @@ func ParseExpression(expression string) []string {
 		}
 		tokens = append(tokens, string(character))
 	}
+	if len(number) != 0 {
+		tokens = append(tokens, number)
+	}
 	return tokens
 }
 
 func ValidateTokens(tokens []string) error {
 	// Check multiple operators or multiple numbers
 	for i := 1; i < len(tokens); i++ {
-		if IsOperand(tokens[i-1]) == IsOperand(tokens[i]) {
+		if IsOperand(tokens[i-1]) && IsOperand(tokens[i]) {
 			return ErrMultipleOperands
 		}
-		if IsNumber(tokens[i-1]) == IsNumber((tokens[i])) {
+		if IsNumber(tokens[i-1]) && IsNumber(tokens[i]) {
 			return ErrMultipleNumbers
 		}
 	}
@@ -103,9 +109,10 @@ func ValidateTokens(tokens []string) error {
 
 func IsNumber(token string) bool {
 	for _, v := range token {
-		if v != '.' || v < '0' || v > '9' {
+		if v != '.' && (v < '0' || v > '9') {
 			return false
 		}
+
 	}
 	return true
 }
@@ -183,6 +190,11 @@ func EvalExpression(tokens []string) (float64, error) {
 		}
 
 		stack = append(stack, result)
+	}
+
+	// Check size of stack
+	if len(stack) == 0 {
+		return 0, nil
 	}
 
 	return stack[0], nil
