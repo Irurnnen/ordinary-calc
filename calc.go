@@ -95,6 +95,10 @@ func ParseExpression(expression string) []string {
 }
 
 func ValidateTokens(tokens []string) error {
+	// Check exists of expression
+	if len(tokens) == 0 {
+		return ErrEmptyExpression
+	}
 	// Check multiple operators or multiple numbers
 	for i := 1; i < len(tokens); i++ {
 		if IsOperand(tokens[i-1]) && IsOperand(tokens[i]) {
@@ -104,6 +108,12 @@ func ValidateTokens(tokens []string) error {
 			return ErrMultipleNumbers
 		}
 	}
+
+	// Check operands at the beginning and end
+	if IsOperand(tokens[0]) || IsOperand(tokens[len(tokens)-1]) {
+		return ErrExtraOperands
+	}
+
 	return nil
 }
 

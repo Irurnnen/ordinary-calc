@@ -121,16 +121,6 @@ func TestCalc(t *testing.T) {
 			exceptedResult: 8,
 		},
 		{
-			name:           "Only space",
-			input:          " ",
-			exceptedResult: 0,
-		},
-		{
-			name:           "Empty expression",
-			input:          "",
-			exceptedResult: 0,
-		},
-		{
 			name:           "Spaces at beginning and end",
 			input:          " 123 + 456 + 789 ",
 			exceptedResult: 1368,
@@ -149,7 +139,29 @@ func TestCalc(t *testing.T) {
 			}
 
 			if got != tc.exceptedResult {
-				t.Errorf("RemoveSpaces(%q): got %f, excepted %f", tc.input, got, tc.exceptedResult)
+				t.Errorf("Calc(%q): got %f, excepted %f", tc.input, got, tc.exceptedResult)
+			}
+		})
+	}
+	casesFail := []struct {
+		name        string
+		expression  string
+		expectedErr error
+	}{
+		{
+			name:        "simple",
+			expression:  "1+1*",
+			expectedErr: ErrExtraOperands,
+		},
+	}
+	for _, tc := range casesFail {
+		t.Run(tc.name, func(t *testing.T) {
+			_, err := Calc(tc.expression)
+			if err == nil {
+				t.Errorf("fail case %s does not return error %q", tc.name, tc.expectedErr)
+			}
+			if err != tc.expectedErr {
+				t.Errorf("Calc(%q): got error %q, expected error %q", tc.expression, err, tc.expectedErr)
 			}
 		})
 	}
