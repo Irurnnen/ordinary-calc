@@ -1,3 +1,3 @@
-module github.com/Irurnnen/yet-another-calc
+module github.com/Irurnnen/ordinary-calc
 
 go 1.23.1
