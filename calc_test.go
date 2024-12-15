@@ -167,7 +167,6 @@ func TestCalc(t *testing.T) {
 	}
 }
 
-// TODO: write tests for RemoveSpaces
 func TestRemoveSpaces(t *testing.T) {
 	cases := []struct {
 		name     string
@@ -265,112 +264,6 @@ func TestParseExpression(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			if got := ParseExpression(tt.args.expression); !reflect.DeepEqual(got, tt.want) {
 				t.Errorf("ParseExpression() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestValidateTokens(t *testing.T) {
-	type args struct {
-		tokens []string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if err := ValidateTokens(tt.args.tokens); (err != nil) != tt.wantErr {
-				t.Errorf("ValidateTokens() error = %v, wantErr %v", err, tt.wantErr)
-			}
-		})
-	}
-}
-
-func TestIsNumber(t *testing.T) {
-	type args struct {
-		token string
-	}
-	tests := []struct {
-		name string
-		args args
-		want bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := IsNumber(tt.args.token); got != tt.want {
-				t.Errorf("IsNumber() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestIsOperand(t *testing.T) {
-	type args struct {
-		token string
-	}
-	tests := []struct {
-		name string
-		args args
-		want bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := IsOperand(tt.args.token); got != tt.want {
-				t.Errorf("IsOperand() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestToPostfix(t *testing.T) {
-	type args struct {
-		tokens []string
-	}
-	tests := []struct {
-		name string
-		args args
-		want []string
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := ToPostfix(tt.args.tokens); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("ToPostfix() = %v, want %v", got, tt.want)
-			}
-		})
-	}
-}
-
-func TestEvalExpression(t *testing.T) {
-	type args struct {
-		tokens []string
-	}
-	tests := []struct {
-		name    string
-		args    args
-		want    float64
-		wantErr bool
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			got, err := EvalExpression(tt.args.tokens)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("EvalExpression() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if got != tt.want {
-				t.Errorf("EvalExpression() = %v, want %v", got, tt.want)
 			}
 		})
 	}
