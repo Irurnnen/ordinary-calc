@@ -94,6 +94,8 @@ func ParseExpression(expression string) []string {
 	return tokens
 }
 
+// ValidateTokens checks tokens for several errors: ErrEmptyExpression,
+// ErrMultipleOperands, ErrMultipleNumbers, ErrExtraOperands
 func ValidateTokens(tokens []string) error {
 	// Check exists of expression
 	if len(tokens) == 0 {
@@ -117,6 +119,7 @@ func ValidateTokens(tokens []string) error {
 	return nil
 }
 
+// IsNumber returns the true if token is a number otherwise false
 func IsNumber(token string) bool {
 	for _, v := range token {
 		if v != '.' && (v < '0' || v > '9') {
@@ -127,10 +130,12 @@ func IsNumber(token string) bool {
 	return true
 }
 
+// IsOperand returns the true if token is an operand otherwise false
 func IsOperand(token string) bool {
 	return strings.Contains(operands, token) && len(token) == 1
 }
 
+// To Postfix changes the order of tokens to reverse Polish notation
 func ToPostfix(tokens []string) []string {
 	var stack []string
 	var output []string
@@ -166,6 +171,7 @@ func ToPostfix(tokens []string) []string {
 	return output
 }
 
+// EvalExpression solves tokens in Reverse Polish notation. This function return float64
 func EvalExpression(tokens []string) (float64, error) {
 	var stack []float64
 	for _, token := range tokens {
