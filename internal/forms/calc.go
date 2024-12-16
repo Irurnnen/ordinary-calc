@@ -1,5 +1,5 @@
 package forms
 
 type Result struct {
-	result string `json:"result"`
+	Result float64 `json:"result"`
 }

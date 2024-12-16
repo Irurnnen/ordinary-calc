@@ -1,4 +1,4 @@
-package yetanothercalc
+package calc
 
 import (
 	"reflect"
