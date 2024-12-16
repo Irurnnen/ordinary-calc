@@ -1,5 +1,10 @@
 package config
 
+import (
+	"os"
+	"strconv"
+)
+
 type Config struct {
 	Port int
 }
@@ -10,8 +15,13 @@ func NewConfigExample() *Config {
 	}
 }
 
-// TODO: Config from Env
-
-// TODO: Config from config file
-
-// TODO: Config from arguments
+func NewConfigFromEnv() *Config {
+	port, err := strconv.Atoi(os.Getenv("PORT"))
+	if err != nil {
+		// TODO: Add logs
+		return NewConfigExample()
+	}
+	return &Config{
+		Port: port,
+	}
+}

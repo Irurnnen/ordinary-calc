@@ -15,15 +15,16 @@ type Application struct {
 
 func New() *Application {
 	return &Application{
-		Config: *config.NewConfigExample(),
+		Config: *config.NewConfigFromEnv(),
 	}
 }
 
 func (a *Application) Run() error {
-	// Todo: Add init code for http server
 	mux := http.NewServeMux()
 	mux.HandleFunc("/api/v1/calculate", handler.CalcHandler)
+
 	err := http.ListenAndServe(":"+fmt.Sprint(a.Config.Port), mux)
+
 	log.Fatal(err)
 	return nil
 }
