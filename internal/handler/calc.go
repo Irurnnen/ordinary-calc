@@ -9,9 +9,22 @@ import (
 	"github.com/Irurnnen/ordinary-calc/pkg/calc"
 )
 
+// CalcHandler godoc
+//
+//	@Summary		Calculate expression
+//	@Description	get answer by expression
+//	@Tags			Calculator
+//	@Param			Expression	body	forms.Expression	true	"Expression"
+//	@Accept			json
+//	@Produce		json
+//	@Success		200	{object}	models.Result
+//	@Success		400	{object}	forms.HTTPError
+//	@Failure		422	{object}	forms.HTTPError
+//	@Failure		500	{object}	forms.HTTPError
+//	@Router			/calculate [post]
 func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	// Get data from request
-	var expression models.Expression
+	var expression forms.Expression
 
 	err := json.NewDecoder(r.Body).Decode(&expression)
 	if err != nil {
@@ -30,28 +43,28 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has extra characters"})
 		return
 	case calc.ErrUnpairedBracket:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has unpaired brackets"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has unpaired brackets"})
 		return
 	case calc.ErrWrongBracketOrder:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has wrong bracket order"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has wrong bracket order"})
 		return
 	case calc.ErrMultipleOperands:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has multiple operands"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has multiple operands"})
 		return
 	case calc.ErrMultipleNumbers:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has multiple sequential numbers"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has multiple sequential numbers"})
 		return
 	case calc.ErrZeroByDivision:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has zero by division"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has zero by division"})
 		return
 	case calc.ErrExtraOperands:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression has at the beginning or at the end"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has at the beginning or at the end"})
 		return
 	case calc.ErrEmptyExpression:
-		ErrorJSONHandler(w, http.StatusBadRequest, forms.HTTPError{Error: "Expression is empty"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression is empty"})
 	default:
 		ErrorJSONHandler(w, http.StatusInternalServerError, forms.HTTPError{Error: "Unknown error"})
 	}
 
-	JSON(w, forms.Result{Result: result})
+	JSON(w, models.Result{Result: result})
 }

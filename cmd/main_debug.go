@@ -1,5 +1,5 @@
-//go:build release
-// +build release
+//go:build debug
+// +build debug
 
 package main
 
@@ -16,6 +16,6 @@ import "github.com/Irurnnen/ordinary-calc/internal/application"
 // @BasePath	/api/v1
 
 func main() {
-	app := application.New()
+	app := application.NewDebug()
 	app.Run()
 }

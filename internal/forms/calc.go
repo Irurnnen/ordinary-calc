@@ -1,5 +1,5 @@
 package forms
 
-type Result struct {
-	Result float64 `json:"result"`
+type Expression struct {
+	Expression string `json:"expression"`
 }
