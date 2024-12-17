@@ -1,5 +1,5 @@
 package models
 
-type Expression struct {
-	Expression string `json:"expression"`
+type Result struct {
+	Result float64 `json:"result"`
 }
