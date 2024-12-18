@@ -1,0 +1,14 @@
+services:
+  ordinary-calc:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        - BUILD_MODE=${BUILD_MODE}
+    container_name: ordinary-calc
+    pull_policy: always
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    environment:
+      - PORT=${PORT}

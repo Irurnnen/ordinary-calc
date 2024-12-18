@@ -1,6 +1,7 @@
 package config
 
 import (
+	"log"
 	"os"
 	"strconv"
 )
@@ -18,7 +19,7 @@ func NewConfigExample() *Config {
 func NewConfigFromEnv() *Config {
 	port, err := strconv.Atoi(os.Getenv("PORT"))
 	if err != nil {
-		// TODO: Add logs
+		log.Fatalf("Fatal error while getting config from env: PORT:%s", os.Getenv("PORT"))
 		return NewConfigExample()
 	}
 	return &Config{

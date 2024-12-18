@@ -52,6 +52,7 @@ func (a *Application) Run() error {
 	// mux := http.NewServeMux()
 	// mux.HandleFunc("/api/v1/calculate", handler.CalcHandler)
 
+	log.Printf("Ordinary-calc has started without errors on http://127.0.0.1:%d", a.Config.Port)
 	err := http.ListenAndServe(":"+fmt.Sprint(a.Config.Port), r)
 
 	log.Fatal(err)
