@@ -1,14 +1,14 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "This is a sample server Petstore server.",
-        "title": "Swagger Example API",
+        "description": "This is ordinary calculator with http server).",
+        "title": "Ordinary Calc",
         "contact": {},
         "license": {
             "name": "MIT",
             "url": "https://mit-license.org/"
         },
-        "version": "1.0"
+        "version": "0.0.1"
     },
     "host": "127.0.0.1:8080",
     "basePath": "/api/v1",
@@ -71,7 +71,8 @@
             "type": "object",
             "properties": {
                 "expression": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "2+2*2"
                 }
             }
         },
@@ -79,7 +80,8 @@
             "type": "object",
             "properties": {
                 "error": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "example error"
                 }
             }
         },
@@ -87,7 +89,8 @@
             "type": "object",
             "properties": {
                 "result": {
-                    "type": "number"
+                    "type": "number",
+                    "example": 65.5
                 }
             }
         }
