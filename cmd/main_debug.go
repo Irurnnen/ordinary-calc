@@ -3,7 +3,10 @@
 
 package main
 
-import "github.com/Irurnnen/ordinary-calc/internal/application"
+import (
+	_ "github.com/Irurnnen/ordinary-calc/docs"
+	"github.com/Irurnnen/ordinary-calc/internal/application"
+)
 
 // @title		Ordinary Calc
 // @version		0.0.1

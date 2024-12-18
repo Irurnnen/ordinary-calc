@@ -5,7 +5,6 @@ import (
 	"log"
 	"net/http"
 
-	_ "github.com/Irurnnen/ordinary-calc/docs"
 	"github.com/Irurnnen/ordinary-calc/internal/config"
 	"github.com/Irurnnen/ordinary-calc/internal/handler"
 	"github.com/go-chi/chi/v5"
