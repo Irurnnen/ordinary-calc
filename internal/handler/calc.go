@@ -63,7 +63,7 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	case calc.ErrEmptyExpression:
 		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression is empty"})
 	default:
-		ErrorJSONHandler(w, http.StatusInternalServerError, forms.HTTPError{Error: "Unknown error"})
+		ErrorJSONHandler(w, http.StatusInternalServerError, forms.HTTPError{Error: "Internal server error"})
 	}
 
 	JSON(w, models.Result{Result: result})
