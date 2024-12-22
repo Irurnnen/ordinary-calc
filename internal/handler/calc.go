@@ -58,12 +58,14 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has zero by division"})
 		return
 	case calc.ErrExtraOperands:
-		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has at the beginning or at the end"})
+		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression has operand at the beginning or at the end"})
 		return
 	case calc.ErrEmptyExpression:
 		ErrorJSONHandler(w, http.StatusUnprocessableEntity, forms.HTTPError{Error: "Expression is empty"})
+		return
 	default:
 		ErrorJSONHandler(w, http.StatusInternalServerError, forms.HTTPError{Error: "Internal server error"})
+		return
 	}
 
 	JSON(w, models.Result{Result: result})

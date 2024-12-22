@@ -76,6 +76,23 @@ HTTP сервер имеет несколько режимов сборки дл
     go build --tags ${BUILD_MODE} -o ./ordinary-calc.exe ./cmd/
     ```
 
+Также нужно создать в environment переменную PORT для выбора на каком порте запустится программа
+
+В Bash
+```bash
+PORT=8080
+```
+
+В PowerShell
+```powershell
+$PORT=8080
+```
+
+В CMD
+```cmd
+set PORT=8080
+```
+
 Осталось только запустить проект. соответственно для этого запускаем его:
 ```bash
 ./ordinary-calc.exe
@@ -176,9 +193,9 @@ curl -X POST http://localhost:8080/api/v1/calculate \
 
 Далее будут описаны все ошибки что заложены в программу
 
-- `Expression has extra characters` - в математическом выражении есть символы, что противоречат маске `[^0-9\.+\-*\/()^\s]`.
+- `Expression has extra characters` - в математическом выражении есть символы, что соответствуют маске `[^0-9\.+\-*\/()^\s]`.
 
-- `Expression has extra characters` - в математическом выражении есть непарные скобочки.
+- `Expression has unpaired brackets"` - в математическом выражении есть непарные скобочки.
 
 - `Expression has wrong bracket order` - в математическом выражении неправильный порядок скобочек.
 
@@ -188,7 +205,7 @@ curl -X POST http://localhost:8080/api/v1/calculate \
 
 - `Expression has zero by division` - при вычислении математического выражения было произведено действие деление на ноль.
 
-- `Expression has at the beginning or at the end` - в начале или в конце математического выражения стоит операнд.
+- `Expression has operand at the beginning or at the end` - в начале или в конце математического выражения стоит операнд.
 
 - `Expression is empty` - математическое выражение не задано
 
@@ -196,6 +213,6 @@ curl -X POST http://localhost:8080/api/v1/calculate \
 
 ## Roadmap
 
-- [ ] Добавление Github CLI
+- [ ] Добавление Github Actions
 - [ ] Добавление шаблонов для Github
 - [ ] Добавление Kubernetes
