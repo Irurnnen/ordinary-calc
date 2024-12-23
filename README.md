@@ -221,6 +221,6 @@ go test ./...
 
 ## Roadmap
 
-- [ ] Добавление Github Actions
+- [x] Добавление Github Actions
 - [ ] Добавление шаблонов для Github
 - [ ] Добавление Kubernetes
