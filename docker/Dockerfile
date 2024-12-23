@@ -14,6 +14,8 @@ WORKDIR /build
 
 ADD go.mod .
 ADD go.sum .
+RUN go mod download
+
 COPY . .
 RUN if [[ "${BUILD_MODE}" == "debug" ]] ; then swag i -g cmd/main_debug.go -o docs/ --ot go ; fi
 RUN go build --tags ${BUILD_MODE} --ldflags="-s -w" -buildvcs=false -o /app/calc ./cmd/

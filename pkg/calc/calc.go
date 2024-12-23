@@ -185,6 +185,10 @@ func EvalExpression(tokens []string) (float64, error) {
 			continue
 		}
 		// If token is operand
+		if len(stack) < 2 {
+			return 0, ErrExtraOperands
+		}
+
 		a, b := stack[len(stack)-2], stack[len(stack)-1]
 		stack = stack[:len(stack)-2]
 

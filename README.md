@@ -211,6 +211,14 @@ curl -X POST http://localhost:8080/api/v1/calculate \
 
 - `Internal server error` - неизвестная ошибка в программе (лучше написать об этом в Issues)
 
+## Тестирование кода
+
+Для тестирования кода используйте команду:
+
+```bash
+go test ./...
+```
+
 ## Roadmap
 
 - [ ] Добавление Github Actions
