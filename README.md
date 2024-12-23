@@ -175,6 +175,60 @@ docker compose up
 }
 ```
 
+## Структура проекта
+
+```
+ordinary-calc/
+├───.github
+│   └───workflows
+│           docker-publish.yml  // Файл Github Workflows для автоматической сборки проекта
+|
+├───cmd
+│       main.go                 // Точка входя для release версии
+│       main_debug.go           // Точка входа для debug версии
+|
+├───docker
+│       Dockerfile              // Файл Dockerfile для сборки OCI образа
+|
+├───docs
+│       docs.go                 // Сгенерированный файл для документации в debug версии
+│       swagger.json            // Заранее сгенерированный файл с документацией
+|
+├───internal
+│   ├───application
+│   │       application.go      // 
+│   │
+│   ├───config
+│   │       config.go           // Создание и загрузка конфига для приложения
+│   │
+│   ├───forms
+│   │       calc.go             // Формы для получения данных
+│   │       common.go           // Базовые формы (формы ошибок, сообщений)
+│   │
+│   ├───handler
+│   │       calc.go             // Обработчики для эндпоинтов
+│   │       calc_test.go        // Тестирование обработчиков
+│   │       common.go           // Дополнительные функции для обработчиков
+│   │
+│   └───models
+│           calc.go             // Модели для отправки json обработчиками
+|
+├───pkg
+│   └───calc
+│           calc.go             // Основная логика (вынесена во внешний пакет)
+│           calc_test.go        // Тесты основной логики
+│           errors.go           // Ошибки для основной логики
+|
+│   .dockerignore               // Игнорируемые файлы для сборки OCI образа
+│   .env.example                // Пример настроек для docker-compose
+│   .gitignore                  // Игнорируемые файлы для Git
+│   docker-compose.yml          // Файл с заранее заданными параметрами для сборки и запуска Docker контейнера
+│   go.mod                      // Основной файл модуля Ordinary-calc
+│   go.sum                      // Список хэш для используемых библиотек
+│   LICENSE                     // Лицензия проекта
+│   README.md                   // Информация о проекте
+```
+
 ## Swagger
 
 Для удобства тестирования API можно воспользоваться Swagger [(Что такое Swagger)](https://practicum.yandex.ru/blog/chto-takoe-swagger/). Доступ к swagger можно получить 2-мя путями: через файл и через debug версию проекта
